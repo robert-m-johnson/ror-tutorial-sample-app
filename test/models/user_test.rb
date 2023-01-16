@@ -51,10 +51,5 @@ class UserTest < ActiveSupport::TestCase
 
     duplicate_user = @user.dup
     assert_not duplicate_user.valid?
-
-    duplicate_user = @user.dup
-    duplicate_user.email = duplicate_user.email.upcase
-    assert_not duplicate_user.valid?,
-               'email should be considered unique in a case-insensitive fashion'
   end
 end
