@@ -66,4 +66,12 @@ class UserTest < ActiveSupport::TestCase
 
     assert_equal @user.email, 'foo@bar.com'
   end
+
+  test 'password should be present (nonblank)' do
+    @user.password = nil
+    assert_not @user.valid?
+
+    @user.password = ' ' * 10
+    assert_not @user.valid?
+  end
 end
