@@ -1,6 +1,6 @@
 require "active_support/inflector"
 # Defines the matching rules for Guard.
-guard :minitest, all_on_start: false do
+guard :minitest, all_on_start: true do
   watch(%r{^test/(.*)/?(.*)_test\.rb$})
   watch('test/test_helper.rb') { 'test' }
   watch('config/routes.rb') { interface_tests }
