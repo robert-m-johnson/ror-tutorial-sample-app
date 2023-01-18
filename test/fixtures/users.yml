@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+## Commented-out as per Listing 6.31; will be coming back in Chapter 8
+
+# one:
+#   name: MyString
+#   email: MyString
+
+# two:
+#   name: MyString
+#   email: MyString
