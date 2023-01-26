@@ -37,6 +37,9 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
       assert_template 'users/show'
 
       assert_not_empty flash
+      assert_select 'div.alert-success' do |elements|
+        assert_not_empty elements
+      end
     end
   end
 end
