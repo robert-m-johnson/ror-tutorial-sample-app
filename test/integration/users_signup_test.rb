@@ -35,6 +35,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
 
       assert_response :success
       assert_template 'users/show'
+
+      assert_not_empty flash
     end
   end
 end
