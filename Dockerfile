@@ -27,4 +27,4 @@ RUN rails db:migrate
 CMD ["rails", "server"]
 
 # Build command:
-# docker build --network host . -t debug && docker run --network host --rm -p 3000 -it debug
+# docker build --network host . -t ror-sample-app-debug && docker run --network host --rm -p 3000 -it ror-sample-app-debug
