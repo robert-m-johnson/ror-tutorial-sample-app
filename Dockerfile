@@ -25,7 +25,8 @@ COPY Rakefile Rakefile
 RUN rails db:migrate
 
 #CMD ["/bin/bash"]
-CMD ["rails", "server", "--binding=0.0.0.0"]
+#CMD ["rails", "server", "--binding=0.0.0.0"]
+CMD ["/bin/puma"]
 
 # Build command:
 # docker build --network host . -t ror-sample-app-debug && docker run --network host --rm -p 3000 -it ror-sample-app-debug
