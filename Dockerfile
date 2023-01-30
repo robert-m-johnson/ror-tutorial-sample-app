@@ -13,8 +13,9 @@ COPY ./app ./app
 COPY ./bin ./bin
 COPY ./.bundle ./.bundle
 COPY ./config ./config
-# No DB file yet!
-#COPY ./db/migrate ./db/migrate
+COPY ./db/migrate ./db/migrate
+COPY ./db/schema.rb ./db/schema.rb
+COPY ./db/seeds.rb ./db/seeds.rb
 COPY ./lib ./lib
 COPY ./public ./public
 
