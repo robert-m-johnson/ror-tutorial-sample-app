@@ -13,8 +13,9 @@ COPY ./app ./app
 COPY ./bin ./bin
 COPY ./.bundle ./.bundle
 COPY ./config ./config
-# No DB file yet!
-#COPY ./db/migrate ./db/migrate
+COPY ./db/migrate ./db/migrate
+COPY ./db/schema.rb ./db/schema.rb
+COPY ./db/seeds.rb ./db/seeds.rb
 COPY ./lib ./lib
 COPY ./public ./public
 
@@ -24,7 +25,7 @@ COPY Rakefile Rakefile
 RUN rails db:migrate
 
 #CMD ["/bin/bash"]
-CMD ["rails", "server"]
+CMD ["rails", "server", "--binding=0.0.0.0"]
 
 # Build command:
-# docker build --network host . -t debug && docker run --network host --rm -p 3000 -it debug
+# docker build --network host . -t ror-sample-app-debug && docker run --network host --rm -p 3000 -it ror-sample-app-debug
