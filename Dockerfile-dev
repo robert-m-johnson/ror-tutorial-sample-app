@@ -7,7 +7,7 @@ WORKDIR /app
 RUN gem install bundler -v 2.3.14
 
 COPY Gemfile Gemfile
-COPY Gemfile Gemfile.lock
+COPY Gemfile.lock Gemfile.lock
 RUN bundle install
 
 COPY ./app ./app
