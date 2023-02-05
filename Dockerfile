@@ -30,8 +30,9 @@ RUN ./bin/rails tmp:create
 #RUN ./bin/rails db:migrate
 
 ENV RAILS_ENV=production
-CMD ["./bin/rails", "server", "--binding=0.0.0.0"]
-#CMD ["/app/bin/puma", "-C", "/app/config/puma.rb"]
+ENV RAILS_LOG_TO_STDOUT=true
+#CMD ["./bin/rails", "server", "--binding=0.0.0.0"]
+CMD ["/app/bin/puma", "-C", "/app/config/puma.rb"]
 
 # Build command:
 # docker build --network host . -t ror-sample-app && docker run --network host --rm -p 3000 -it ror-sample-app
