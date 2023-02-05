@@ -88,3 +88,10 @@ spec:
                 configMapKeyRef:
                   name: ror-sample-app-db-config
                   key: password
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: ror-sample-app-db-pvc
