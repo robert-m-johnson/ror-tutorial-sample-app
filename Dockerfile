@@ -16,19 +16,22 @@ COPY config.ru config.ru
 COPY Rakefile Rakefile
 
 COPY ./bin ./bin
-COPY ./app ./app
 COPY ./config ./config
+COPY ./app/assets ./app/assets
+RUN ./bin/rails assets:precompile
+
+COPY ./app ./app
 COPY ./lib ./lib
-COPY ./public ./public
 COPY ./db/migrate ./db/migrate
 COPY ./db/schema.rb ./db/schema.rb
 COPY ./db/seeds.rb ./db/seeds.rb
 
 RUN ./bin/rails tmp:create
+#RUN ./bin/rails db:migrate
 
-# #CMD ["./bin/rails", "server", "--binding=0.0.0.0"]
 ENV RAILS_ENV=production
-CMD ["/app/bin/puma", "-C", "/app/config/puma.rb"]
+CMD ["./bin/rails", "server", "--binding=0.0.0.0"]
+#CMD ["/app/bin/puma", "-C", "/app/config/puma.rb"]
 
 # Build command:
 # docker build --network host . -t ror-sample-app && docker run --network host --rm -p 3000 -it ror-sample-app
