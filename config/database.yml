@@ -24,6 +24,7 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: ror-sample-app-db
   database: sample_app
   username: sample_app
-  password: <%= ENV['SAMPLE_APP_DATABASE_PASSWORD'] %>
+  password: Revival123$ #<%= ENV['SAMPLE_APP_DATABASE_PASSWORD'] %>
