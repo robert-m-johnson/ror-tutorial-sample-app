@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ror-sample-app-debug
+spec:
+  ports:
+    - port: 3001
+      targetPort: 3000
+  selector:
+    app: ror-sample-app-debug
+  type: LoadBalancer
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,3 +28,52 @@ spec:
           image: ror-sample-app-debug
           # Don't pull; using a local image here
           imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ror-sample-app-db
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: ror-sample-app-db
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ror-sample-app-db-config
+data:
+  username: sample_app
+  # TODO: Convert to secret
+  password: Revival123$
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ror-sample-app-db
+spec:
+  selector:
+    matchLabels:
+      app: ror-sample-app-db
+  template:
+    metadata:
+      labels:
+        app: ror-sample-app-db
+    spec:
+      containers:
+        - name: ror-sample-app-db
+          image: postgres:15.1-alpine3.17
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: ror-sample-app-db-config
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: ror-sample-app-db-config
+                  key: password
