@@ -1,8 +1,10 @@
 # -*- mode: dockerfile -*-
-FROM ruby:3.1.2-bullseye
+FROM ruby:3.1.2-alpine3.16 as build
 
 RUN mkdir /app
 WORKDIR /app
+
+RUN apk add --update build-base postgresql-dev tzdata
 
 RUN gem install bundler -v 2.3.14
 
@@ -17,21 +19,20 @@ COPY Rakefile Rakefile
 
 COPY ./bin ./bin
 COPY ./config ./config
+COPY ./lib ./lib
+
 COPY ./app/assets ./app/assets
 RUN ./bin/rails assets:precompile
 
 COPY ./app ./app
-COPY ./lib ./lib
 COPY ./db/migrate ./db/migrate
 COPY ./db/schema.rb ./db/schema.rb
 COPY ./db/seeds.rb ./db/seeds.rb
 
 RUN ./bin/rails tmp:create
-#RUN ./bin/rails db:migrate
 
 ENV RAILS_ENV=production
 ENV RAILS_LOG_TO_STDOUT=true
-#CMD ["./bin/rails", "server", "--binding=0.0.0.0"]
 CMD ["/app/bin/puma", "-C", "/app/config/puma.rb"]
 
 # Build command:
