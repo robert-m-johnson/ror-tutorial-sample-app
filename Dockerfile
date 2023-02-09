@@ -14,6 +14,18 @@ COPY Gemfile.lock Gemfile.lock
 RUN bundle config set --local without 'test development'
 RUN bundle install
 
+FROM ruby:3.1.2-alpine3.16
+
+RUN mkdir /app
+WORKDIR /app
+
+RUN apk add --update libpq tzdata \
+    && rm -rf /var/cache/apk
+
+COPY --from=build /usr/local/bundle /usr/local/bundle
+COPY Gemfile Gemfile
+COPY Gemfile.lock Gemfile.lock
+
 COPY config.ru config.ru
 COPY Rakefile Rakefile
 
