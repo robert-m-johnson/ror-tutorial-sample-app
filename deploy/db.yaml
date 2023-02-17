@@ -48,6 +48,15 @@ spec:
                 configMapKeyRef:
                   name: ror-sample-app-db-config
                   key: password
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-h", "localhost"]
+            periodSeconds: 5
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-h", "localhost"]
+            periodSeconds: 10
+            initialDelaySeconds: 10
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data
