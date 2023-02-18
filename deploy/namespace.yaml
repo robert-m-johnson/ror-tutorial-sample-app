@@ -10,5 +10,5 @@ metadata:
   namespace: ror
 spec:
   hard:
-    limits.cpu: 6000m
-    limits.memory: 4Gi
+    limits.cpu: 10
+    limits.memory: 12Gi
