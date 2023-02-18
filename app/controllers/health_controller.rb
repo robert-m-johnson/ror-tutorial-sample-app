@@ -1,12 +1,10 @@
 class HealthController < ApplicationController
   def ready
-    connected = ActiveRecord::Base.connection.active?
-
-    if connected
-      head :ok
-    else
-      logger.warn 'Readiness check failed; DB not connected'
-      head :service_unavailable
-    end
+    ActiveRecord::Base.connection.active?
+  rescue ActiveRecord::NoDatabaseError => _e
+    logger.warn 'Readiness check failed; DB not connected'
+    head :service_unavailable
+  else
+    head :ok
   end
 end
