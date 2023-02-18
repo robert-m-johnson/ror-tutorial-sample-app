@@ -26,8 +26,20 @@ spec:
       containers:
         - name: web
           image: ror-sample-app
+          env:
+            - name: SAMPLE_APP_DATABASE_PASSWORD
+              # TODO: Convert to secret
+              value: Revival123$
+          ports:
+            - name: rails
+              containerPort: 3000
           # Don't pull always; using a local image here
           imagePullPolicy: IfNotPresent
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: rails
+            periodSeconds: 5
           resources:
             limits:
               cpu: 2000m
