@@ -50,11 +50,13 @@ spec:
                   key: password
           readinessProbe:
             exec:
-              command: ["pg_isready", "-h", "localhost"]
+              # TODO: Fix hard-coded user name
+              command: ["pg_isready", "-h", "localhost", "-U", "sample_app"]
             periodSeconds: 5
           livenessProbe:
             exec:
-              command: ["pg_isready", "-h", "localhost"]
+              # TODO: Fix hard-coded user name
+              command: ["pg_isready", "-h", "localhost", "-U", "sample_app"]
             periodSeconds: 10
             initialDelaySeconds: 10
           volumeMounts:
