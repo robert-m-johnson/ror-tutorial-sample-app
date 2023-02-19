@@ -26,6 +26,7 @@ kind: Deployment
 metadata:
   name: ror-sample-app-db
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: ror-sample-app-db

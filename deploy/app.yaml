@@ -15,6 +15,7 @@ kind: Deployment
 metadata:
   name: ror-sample-app-web
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: ror-sample-app-web
