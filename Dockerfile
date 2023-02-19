@@ -4,6 +4,9 @@ FROM ruby:3.1.2-alpine3.16 as base
 RUN mkdir /app
 WORKDIR /app
 
+# build-base - compilation of native extension
+# postgresql14-dev - compilation of postgres gem
+# tzdata - time zone data - possibly not needed for build stage?
 RUN apk add --no-cache \
     build-base=0.5-r3 \
     postgresql14-dev=14.7-r0 \
