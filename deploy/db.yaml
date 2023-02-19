@@ -46,8 +46,8 @@ spec:
                   key: username
             - name: POSTGRES_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: ror-sample-app-db-config
+                secretKeyRef:
+                  name: db-secret
                   key: password
           readinessProbe:
             exec:

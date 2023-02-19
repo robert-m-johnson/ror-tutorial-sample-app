@@ -29,8 +29,10 @@ spec:
           image: ror-sample-app
           env:
             - name: SAMPLE_APP_DATABASE_PASSWORD
-              # TODO: Convert to secret
-              value: Revival123$
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
           ports:
             - name: rails
               containerPort: 3000

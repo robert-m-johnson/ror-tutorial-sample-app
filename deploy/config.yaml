@@ -4,5 +4,3 @@ metadata:
   name: ror-sample-app-db-config
 data:
   username: sample_app
-  # TODO: Convert to secret
-  password: Revival123$

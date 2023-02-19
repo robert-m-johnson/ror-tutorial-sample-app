@@ -27,4 +27,4 @@ production:
   host: ror-sample-app-db
   database: sample_app
   username: sample_app
-  password: <%= ENV.fetch('SAMPLE_APP_DATABASE_PASSWORD') { "Revival123$" } %>
+  password: <%= ENV.fetch('SAMPLE_APP_DATABASE_PASSWORD') %>
