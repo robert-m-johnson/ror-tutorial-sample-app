@@ -35,6 +35,12 @@ spec:
               containerPort: 3000
           # Don't pull always; using a local image here
           imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: rails
+            periodSeconds: 5
+            initialDelaySeconds: 5
           readinessProbe:
             httpGet:
               path: /health/ready
