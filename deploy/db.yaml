@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ror-sample-app-db-lb
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: ror-sample-app-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ror-sample-app-db
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+  selector:
+    app: ror-sample-app-db
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ror-sample-app-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ror-sample-app-db
+  template:
+    metadata:
+      labels:
+        app: ror-sample-app-db
+    spec:
+      containers:
+        - name: ror-sample-app-db
+          image: postgres:15.1-alpine3.17
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: ror-sample-app-db-config
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
+          readinessProbe:
+            exec:
+              # TODO: Fix hard-coded user name
+              command: ["pg_isready", "-h", "localhost", "-U", "sample_app"]
+            periodSeconds: 5
+          livenessProbe:
+            exec:
+              # TODO: Fix hard-coded user name
+              command: ["pg_isready", "-h", "localhost", "-U", "sample_app"]
+            periodSeconds: 10
+            initialDelaySeconds: 10
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: ror-sample-app-db-pvc

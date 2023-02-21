@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ror-sample-app-web
+spec:
+  ports:
+    - port: 3001
+      targetPort: 3000
+  selector:
+    app: ror-sample-app-web
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ror-sample-app-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ror-sample-app-web
+  template:
+    metadata:
+      labels:
+        app: ror-sample-app-web
+    spec:
+      containers:
+        - name: web
+          image: ror-sample-app
+          env:
+            - name: SAMPLE_APP_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
+          ports:
+            - name: rails
+              containerPort: 3000
+          # Don't pull always; using a local image here
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: rails
+            periodSeconds: 5
+            initialDelaySeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: rails
+            periodSeconds: 5
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 2Gi
