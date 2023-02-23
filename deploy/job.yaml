@@ -20,9 +20,8 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: password
-
-          resources:
-            limits:
-              cpu: 500m
-              memory: 512Mi
+          # resources:
+          #   limits:
+          #     cpu: 500m
+          #     memory: 512Mi
       restartPolicy: Never
