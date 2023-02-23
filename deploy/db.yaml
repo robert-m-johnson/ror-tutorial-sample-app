@@ -60,14 +60,14 @@ spec:
               command: ["pg_isready", "-h", "localhost", "-U", "sample_app"]
             periodSeconds: 10
             initialDelaySeconds: 10
-          volumeMounts:
-            - name: data
-              mountPath: /var/lib/postgresql/data
+          # volumeMounts:
+          #   - name: data
+          #     mountPath: /var/lib/postgresql/data
           # resources:
           #   limits:
           #     cpu: 256m
           #     memory: 512Mi
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: ror-sample-app-db-pvc
+      # volumes:
+      #   - name: data
+      #     persistentVolumeClaim:
+      #       claimName: ror-sample-app-db-pvc
