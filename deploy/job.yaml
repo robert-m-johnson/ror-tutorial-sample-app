@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
         - name: migrate
-          image: ror-sample-app
+          image: registry.digitalocean.com/rob-dev/ror-sample-app:latest
           # Don't pull always; using a local image here
           imagePullPolicy: IfNotPresent
           command: ["rails", "db:migrate"]

@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: ror-sample-app
+          image: registry.digitalocean.com/rob-dev/ror-sample-app:latest
           env:
             - name: SAMPLE_APP_DATABASE_PASSWORD
               valueFrom:
