@@ -49,7 +49,7 @@ spec:
               path: /health/ready
               port: rails
             periodSeconds: 5
-          resources:
-            limits:
-              cpu: 2000m
-              memory: 2Gi
+          # resources:
+          #   limits:
+          #     cpu: 250m
+          #     memory: 250Mi
