@@ -25,6 +25,6 @@ production:
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: ror-sample-app-db
-  database: sample_app
+  database: {{ .Values.dbUserName | quote }}
   username: sample_app
   password: <%= ENV['SAMPLE_APP_DATABASE_PASSWORD'] %>

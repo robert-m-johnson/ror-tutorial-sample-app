@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ror-sample-app-db-config
+  namespace: {{ .Release.Namespace }}
+data:
+  username: {{ .Values.dbUserName | quote }}

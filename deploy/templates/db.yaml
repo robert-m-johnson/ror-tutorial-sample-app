@@ -1,7 +1,9 @@
+{{ if .Values.dbLoadBalancer }}
 apiVersion: v1
 kind: Service
 metadata:
   name: ror-sample-app-db-lb
+  namespace: {{ .Release.Namespace }}
 spec:
   type: LoadBalancer
   ports:
@@ -10,10 +12,12 @@ spec:
   selector:
     app: ror-sample-app-db
 ---
+{{ end }}
 apiVersion: v1
 kind: Service
 metadata:
   name: ror-sample-app-db
+  namespace: {{ .Release.Namespace }}
 spec:
   type: ClusterIP
   ports:
@@ -25,6 +29,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ror-sample-app-db
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -35,9 +40,20 @@ spec:
       labels:
         app: ror-sample-app-db
     spec:
+      # Init job to ensure that lost+found directory is not present
+      initContainers:
+        - name: pgsql-data-permission-fix
+          image: alpine:3.17.2
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/rm","-rf","/var/lib/postgresql/data/lost+found"]
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
       containers:
         - name: ror-sample-app-db
           image: postgres:15.1-alpine3.17
+          # Using fixed version numbers, so only need to pull once
+          imagePullPolicy: IfNotPresent
           env:
             - name: POSTGRES_USER
               valueFrom:
@@ -51,22 +67,20 @@ spec:
                   key: password
           readinessProbe:
             exec:
-              # TODO: Fix hard-coded user name
-              command: ["pg_isready", "-h", "localhost", "-U", "sample_app"]
+              command: ["pg_isready", "-h", "localhost", "-U", {{ .Values.dbUserName | quote }}]
             periodSeconds: 5
           livenessProbe:
             exec:
-              # TODO: Fix hard-coded user name
-              command: ["pg_isready", "-h", "localhost", "-U", "sample_app"]
+              command: ["pg_isready", "-h", "localhost", "-U", {{ .Values.dbUserName | quote }}]
             periodSeconds: 10
             initialDelaySeconds: 10
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data
-          resources:
-            limits:
-              cpu: 2000m
-              memory: 2Gi
+          # resources:
+          #   limits:
+          #     cpu: 256m
+          #     memory: 512Mi
       volumes:
         - name: data
           persistentVolumeClaim:

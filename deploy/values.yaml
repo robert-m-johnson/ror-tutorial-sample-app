@@ -1,0 +1,3 @@
+dbLoadBalancer: false
+dbUserName: sample_app
+storageClassName: local-path

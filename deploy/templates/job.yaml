@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: migrate
+  namespace: {{ .Release.Namespace }}
   labels:
     project: ror-sample-app
 spec:
@@ -9,7 +10,7 @@ spec:
     spec:
       containers:
         - name: migrate
-          image: ror-sample-app
+          image: registry.digitalocean.com/rob-dev/ror-sample-app:latest
           # Don't pull always; using a local image here
           imagePullPolicy: IfNotPresent
           command: ["rails", "db:migrate"]
@@ -19,9 +20,8 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: password
-
-          resources:
-            limits:
-              cpu: 500m
-              memory: 512Mi
+          # resources:
+          #   limits:
+          #     cpu: 500m
+          #     memory: 512Mi
       restartPolicy: Never
