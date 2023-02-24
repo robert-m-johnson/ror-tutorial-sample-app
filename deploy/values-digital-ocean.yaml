@@ -1,0 +1,2 @@
+dbLoadBalancer: false
+storageClassName: do-block-storage

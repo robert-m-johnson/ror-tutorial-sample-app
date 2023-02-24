@@ -1,2 +1,3 @@
 replicaCount: 1
 dbLoadBalancer: false
+storageClassName: local-path

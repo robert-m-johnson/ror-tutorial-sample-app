@@ -9,5 +9,4 @@ spec:
   resources:
     requests:
       storage: 128Mi
-  #storageClassName: local-path
-  storageClassName: do-block-storage-retain
+  storageClassName: {{ .Values.storageClassName | quote }}
