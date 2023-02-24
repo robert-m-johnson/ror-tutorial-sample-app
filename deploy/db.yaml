@@ -37,6 +37,15 @@ spec:
       labels:
         app: ror-sample-app-db
     spec:
+      # Init job to ensure that lost+found directory is not present
+      initContainers:
+        - name: pgsql-data-permission-fix
+          image: alpine:3.17.2
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/rm","-rf","/var/lib/postgresql/data/lost+found"]
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
       containers:
         - name: ror-sample-app-db
           image: postgres:15.1-alpine3.17
@@ -64,14 +73,14 @@ spec:
               command: ["pg_isready", "-h", "localhost", "-U", "sample_app"]
             periodSeconds: 10
             initialDelaySeconds: 10
-          # volumeMounts:
-          #   - name: data
-          #     mountPath: /var/lib/postgresql/data
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
           # resources:
           #   limits:
           #     cpu: 256m
           #     memory: 512Mi
-      # volumes:
-      #   - name: data
-      #     persistentVolumeClaim:
-      #       claimName: ror-sample-app-db-pvc
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: ror-sample-app-db-pvc
