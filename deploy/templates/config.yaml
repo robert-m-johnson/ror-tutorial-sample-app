@@ -4,4 +4,4 @@ metadata:
   name: ror-sample-app-db-config
   namespace: {{ .Release.Namespace }}
 data:
-  username: sample_app
+  username: {{ .Values.dbUserName | quote }}

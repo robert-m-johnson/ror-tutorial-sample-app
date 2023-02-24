@@ -67,13 +67,11 @@ spec:
                   key: password
           readinessProbe:
             exec:
-              # TODO: Fix hard-coded user name
-              command: ["pg_isready", "-h", "localhost", "-U", "sample_app"]
+              command: ["pg_isready", "-h", "localhost", "-U", {{ .Values.dbUserName | quote }}]
             periodSeconds: 5
           livenessProbe:
             exec:
-              # TODO: Fix hard-coded user name
-              command: ["pg_isready", "-h", "localhost", "-U", "sample_app"]
+              command: ["pg_isready", "-h", "localhost", "-U", {{ .Values.dbUserName | quote }}]
             periodSeconds: 10
             initialDelaySeconds: 10
           volumeMounts:
