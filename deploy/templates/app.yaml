@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ror-sample-app-web
-  namespace: ror
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - port: 3001
@@ -15,7 +15,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ror-sample-app-web
-  namespace: ror
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
